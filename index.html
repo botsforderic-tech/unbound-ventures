@@ -552,7 +552,7 @@
 
 <footer>
   <span>Unbound Ventures LLC. Be Boundless. <small style="opacity:.6">Tour du Mont Blanc photo by Baron Carson on Unsplash.</small></span>
-  <span><a href="https://www.instagram.com/unboundventures/" rel="noopener">Instagram</a><a href="mailto:hello@unboundventures.com">Contact</a></span>
+  <span><a href="https://www.instagram.com/unboundventures/" rel="noopener">Instagram</a><a href="mailto:botsford.eric@gmail.com">Contact</a></span>
 </footer>
 
 <script>
@@ -589,11 +589,24 @@
     track.addEventListener('keydown', e => { if (e.key === 'ArrowRight') { e.preventDefault(); go(cur() + 1); } if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur() - 1); } });
     sync();
   });
-  // Placeholder signup until an email service is connected.
-  document.getElementById('signup').addEventListener('submit', e => {
+  // Applications are emailed to Unbound through FormSubmit.
+  document.getElementById('signup').addEventListener('submit', async e => {
     e.preventDefault();
-    document.getElementById('form-note').textContent = "Thanks for applying. We'll be in touch with next steps.";
-    e.target.reset();
+    const form = e.target, note = document.getElementById('form-note'), btn = form.querySelector('button');
+    const email = form.querySelector('#email').value.trim();
+    btn.disabled = true; note.textContent = 'Sending your application...';
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/botsford.eric@gmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ email, _subject: 'New Unbound Ventures application', _template: 'table', _captcha: 'false', source: 'unboundventures website' })
+      });
+      if (!res.ok) throw new Error(res.status);
+      note.textContent = "Thanks for applying. We'll be in touch with next steps.";
+      form.reset();
+    } catch (err) {
+      note.textContent = "Your application didn't go through. Check your connection and try again, or email botsford.eric@gmail.com.";
+    } finally { btn.disabled = false; }
   });
 </script>
 </body>
