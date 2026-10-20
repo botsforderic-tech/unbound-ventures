@@ -91,6 +91,16 @@
   .tenets h3{font-stretch:125%;font-weight:600;font-size:19px;letter-spacing:.01em;margin-bottom:6px}
   .tenets p{color:var(--mist);font-weight:300}
 
+  /* ---------- LEADER ---------- */
+  .leader{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(32px,6vw,96px);align-items:center;padding:0 var(--gutter) clamp(96px,14vw,200px)}
+  .leader-copy{min-width:0;max-width:56ch}
+  .leader h2{font-size:clamp(38px,5.4vw,80px);margin-bottom:28px}
+  .leader .kicker{margin-bottom:14px}
+  .leader-copy p:not(.kicker){color:var(--mist);font-weight:300;font-size:18px}
+  .leader-copy p + p{margin-top:16px}
+  .leader-img{aspect-ratio:4/5;overflow:hidden;max-width:100%}
+  .leader-img img{width:100%;height:100%;object-fit:cover;object-position:center 30%}
+
   /* ---------- JOIN ---------- */
   .join{grid-template-columns:minmax(0,1fr);position:relative;min-height:80svh;display:grid;place-items:center;text-align:center;overflow:hidden;isolation:isolate;padding:120px var(--gutter)}
   .join img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
@@ -159,6 +169,8 @@
     nav.corner{display:none}
     .approach{grid-template-columns:1fr}
     .approach-img{aspect-ratio:4/3}
+    .leader{grid-template-columns:1fr}
+    .leader-img{order:-1;aspect-ratio:4/3}
     .mosaic{grid-template-columns:repeat(2,1fr);grid-auto-rows:150px}
     .mosaic figure{grid-column:span 1!important;grid-row:span 1!important}
     .mosaic .m1,.mosaic .m6,.mosaic .m7,.mosaic .m8,.mosaic .m9,.mosaic .m10{grid-column:span 2!important;grid-row:span 2!important}
@@ -183,7 +195,7 @@
   </video>
   <a class="corner tl brand" href="/">Unbound</a>
   <nav class="corner tr" aria-label="Main">
-    <a href="#expeditions">Expeditions</a><a href="#approach">Approach</a><a href="#join">Apply</a>
+    <a href="#expeditions">Expeditions</a><a href="#approach">Approach</a><a href="#leader">Leader</a><a href="#join">Apply</a>
   </nav>
   <div class="hero-copy">
     <h1 class="display">Be Boundless.</h1>
@@ -534,6 +546,18 @@
       <li><h3>Led by athletes</h3><p>Our guides come from hotshot crews, elite training and endurance racing. They have carried the load you are about to carry.</p></li>
     </ul>
   </div>
+</section>
+
+<section id="leader" class="leader" aria-labelledby="leader-h">
+  <div class="leader-copy">
+    <p class="kicker">Expedition Leader</p>
+    <h2 id="leader-h" class="display">Eric Botsford</h2>
+    <p>Eric has spent more than 15 years building some of the biggest names in endurance and functional fitness, from Tough Mudder and Ragnar Relay to leading the US launch of HYROX.</p>
+    <p>Before that he fought wildfire as a Helitack firefighter with the U.S. Forest Service and as an engine and aviation fireman with CAL FIRE, where long days carrying heavy loads in steep country were the job.</p>
+    <p>He is also a trained EMT with a background in wilderness medicine, so the person setting your pace is the same person ready to care for you when you are far from help.</p>
+    <p>He has guided expeditions with XPT and Wodventures, owned and coached at Good Times CrossFit, and today leads growth for WZA Sports. Unbound Ventures is where all of it comes together: real objectives, small crews and a leader who has carried the load you are about to carry.</p>
+  </div>
+  <div class="leader-img"><img src="assets/team/eric-botsford.jpg" alt="Eric Botsford smiling with a ruck on his back in front of Sedona's red rock" loading="lazy"></div>
 </section>
 
 <section id="join" class="join" aria-labelledby="join-h">
