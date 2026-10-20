@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unbound Ventures | Be Boundless</title>
+<meta name="description" content="Guided expeditions for athletes, not tourists. Summits, ridgelines, canyons and open water, built for people who train.">
+<meta property="og:title" content="Unbound Ventures">
+<meta property="og:description" content="Guided expeditions for athletes, not tourists.">
+<meta property="og:image" content="assets/crystal-peak/summit-peak.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --slate:#1B2328;      /* shadowed rock */
+    --slate-2:#26313A;    /* ridge in shade */
+    --snow:#EEF1F2;       /* sunlit snow */
+    --glacier:#9DB4BF;    /* tarn ice */
+    --mist:#C9D3D8;
+    --brick:#A84232;      /* Unbound signal red, used once per view */
+    --gutter:clamp(16px,4vw,56px);
+    --wide:'Archivo',system-ui,sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--slate);color:var(--snow);font-family:var(--wide);font-stretch:100%;font-weight:400;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  img,video{display:block;max-width:100%}
+  a{color:inherit}
+  :focus-visible{outline:2px solid var(--glacier);outline-offset:4px}
+
+  /* corner labels, lifted from the expedition posters */
+  .corner{position:absolute;font-size:11px;font-weight:500;font-stretch:125%;letter-spacing:.42em;text-transform:uppercase;color:rgba(238,241,242,.78);z-index:3}
+  .tl{top:var(--gutter);left:var(--gutter)} .tr{top:var(--gutter);right:var(--gutter);text-align:right}
+  .bl{bottom:var(--gutter);left:var(--gutter)} .br{bottom:var(--gutter);right:var(--gutter);text-align:right}
+
+  .display{font-stretch:125%;font-weight:600;letter-spacing:-.02em;line-height:.98}
+  .arrow{display:inline-block;width:120px;height:14px;margin-top:36px;transition:transform .35s ease}
+  .arrow line,.arrow polyline{stroke:currentColor;stroke-width:1.5;fill:none}
+  a:hover .arrow,a:focus-visible .arrow{transform:translateX(12px)}
+
+  /* ---------- HERO ---------- */
+  .hero{grid-template-columns:minmax(0,1fr);position:relative;height:100svh;min-height:560px;overflow:hidden;display:grid;place-items:center;text-align:center}
+  .hero video,.hero .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(27,35,40,.45) 0%,rgba(27,35,40,.15) 40%,rgba(27,35,40,.65) 100%);z-index:1}
+  .hero-copy{position:relative;z-index:2;padding:0 var(--gutter)}
+  .hero h1{font-size:clamp(52px,11vw,168px)}
+  .hero p{font-size:clamp(17px,1.8vw,24px);font-weight:300;margin-top:18px;color:var(--mist)}
+  .hero a{text-decoration:none;display:inline-block}
+  nav.corner a{text-decoration:none;margin-left:2.2em}
+  nav.corner a:hover{color:var(--snow)}
+  .brand{font-weight:700;letter-spacing:.32em;color:var(--snow);text-decoration:none}
+
+  /* ---------- STATEMENT ---------- */
+  .statement{padding:clamp(96px,16vw,220px) var(--gutter);max-width:1280px}
+  .statement p{font-size:clamp(26px,3.6vw,52px);font-weight:300;font-stretch:112%;line-height:1.18;letter-spacing:-.01em;max-width:22ch}
+  .statement p + p{margin-top:.8em;color:var(--glacier)}
+
+  /* ---------- EXPEDITION POSTERS ---------- */
+  .poster-stack{display:grid}
+  .trip{grid-template-columns:minmax(0,1fr);position:relative;height:92svh;min-height:520px;overflow:hidden;display:grid;place-items:center;text-align:center;text-decoration:none;color:var(--snow);background-color:var(--tint,var(--slate-2));background-size:cover;background-position:center;isolation:isolate}
+  .trip::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(27,35,40,.35),rgba(27,35,40,.6));z-index:-1}
+  .trip .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform 1.2s ease}
+  .trip:hover .bg{transform:scale(1.03)}
+  .trip h2{font-size:clamp(40px,7.4vw,112px)}
+  .trip .sub{font-size:clamp(16px,1.7vw,22px);font-weight:300;margin-top:16px;color:var(--mist)}
+  .trip .sub span{opacity:.5;padding:0 .7em}
+  .trip.pending{height:64svh;min-height:420px}
+
+  /* ---------- FIELD REEL ---------- */
+  .field{padding:clamp(88px,12vw,160px) var(--gutter) 0}
+  .field-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+  .field h2{font-size:clamp(34px,5vw,72px)}
+  .field-head p{max-width:38ch;color:var(--glacier);font-weight:300}
+  .mosaic{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:clamp(120px,14vw,210px);gap:8px}
+  .mosaic figure{overflow:hidden;position:relative}
+  .mosaic img{width:100%;height:100%;object-fit:cover}
+  .mosaic figcaption{position:absolute;left:14px;bottom:12px;font-size:12px;font-weight:500;color:var(--snow);text-shadow:0 1px 8px rgba(0,0,0,.6)}
+  .m1{grid-column:span 7;grid-row:span 2}.m2{grid-column:span 5;grid-row:span 2}
+  .m3{grid-column:span 4;grid-row:span 2}.m4{grid-column:span 4;grid-row:span 2}.m5{grid-column:span 4;grid-row:span 2}
+  .m6{grid-column:span 5;grid-row:span 2}.m7{grid-column:span 7;grid-row:span 2}
+  .m8{grid-column:span 7;grid-row:span 2}.m9{grid-column:span 5;grid-row:span 2}
+  .m10,.m11,.m12{grid-column:span 4;grid-row:span 2}
+
+  /* ---------- APPROACH ---------- */
+  .approach{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,96px);padding:clamp(96px,14vw,200px) var(--gutter);align-items:center}
+  .approach-img{aspect-ratio:4/5;overflow:hidden}
+  .approach-img img{width:100%;height:100%;object-fit:cover}
+  .approach h2{font-size:clamp(34px,4.6vw,64px);margin-bottom:44px}
+  .tenets{list-style:none;display:grid;gap:34px;max-width:46ch}
+  .tenets h3{font-stretch:125%;font-weight:600;font-size:19px;letter-spacing:.01em;margin-bottom:6px}
+  .tenets p{color:var(--mist);font-weight:300}
+
+  /* ---------- JOIN ---------- */
+  .join{grid-template-columns:minmax(0,1fr);position:relative;min-height:80svh;display:grid;place-items:center;text-align:center;overflow:hidden;isolation:isolate;padding:120px var(--gutter)}
+  .join img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+  .join::before{content:"";position:absolute;inset:0;background:rgba(27,35,40,.62);z-index:-1}
+  .join > div{width:100%;max-width:760px}
+  .join h2{font-size:clamp(40px,7vw,104px)}
+  .join p{color:var(--mist);font-weight:300;margin:18px auto 36px;max-width:44ch;font-size:19px}
+  form{display:flex;max-width:520px;margin:0 auto;border-bottom:1.5px solid var(--snow)}
+  input[type=email]{flex:1;min-width:0;background:transparent;border:0;color:var(--snow);font:inherit;font-size:18px;padding:14px 4px}
+  input::placeholder{color:rgba(238,241,242,.55)}
+  input:focus{outline:none}
+  button{background:var(--brick);color:#fff;border:0;font:inherit;font-stretch:125%;font-weight:600;font-size:14px;letter-spacing:.14em;text-transform:uppercase;padding:0 26px;cursor:pointer;transition:background .2s}
+  button:hover{background:#8B3A2F}
+  .form-note{margin-top:16px;font-size:14px;color:var(--glacier);min-height:1.4em}
+
+  footer{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;padding:40px var(--gutter);font-size:13px;color:var(--glacier);border-top:1px solid rgba(157,180,191,.18)}
+  footer a{text-decoration:none;margin-left:22px}
+  footer a:hover{color:var(--snow)}
+
+
+  /* ---------- ROATÁN CAROUSEL ---------- */
+  .reef{position:relative;background:#0D2A3A;color:var(--snow)}
+  .reef.alpine{background:var(--slate-2)}
+  .reef.canyon{background:#2A1C16}
+  .reef.canyon .slide::before{background:linear-gradient(180deg,rgba(30,20,16,.2) 0%,rgba(30,20,16,.4) 45%,rgba(24,16,12,.9) 100%)}
+  .reef.alpine .slide::before{background:linear-gradient(180deg,rgba(27,35,40,.2) 0%,rgba(27,35,40,.4) 45%,rgba(20,27,32,.9) 100%)}
+  .reef.alpine .slide-days::before{background:linear-gradient(90deg,rgba(20,27,32,.95) 0%,rgba(20,27,32,.82) 60%,rgba(20,27,32,.55) 100%)}
+  .incl{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 32px;margin-top:22px;max-width:620px;color:var(--mist);font-weight:300}
+  .incl li{padding-left:18px;position:relative}
+  .incl li::before{content:"";position:absolute;left:0;top:.7em;width:8px;height:1px;background:var(--snow)}
+  .reef-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;overscroll-behavior-x:contain}
+  .reef-track::-webkit-scrollbar{display:none}
+  .slide{position:relative;flex:0 0 100%;min-height:92svh;scroll-snap-align:start;display:grid;align-items:end;overflow:hidden;isolation:isolate;padding:clamp(96px,12vw,140px) var(--gutter) clamp(120px,14vw,170px)}
+  .slide .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+  .slide::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,30,44,.15) 0%,rgba(8,30,44,.35) 45%,rgba(6,22,34,.88) 100%);z-index:-1}
+  .slide-copy{max-width:760px;min-width:0}
+  .slide h2{font-size:clamp(44px,7.4vw,112px)}
+  .slide h3{font-size:clamp(34px,5vw,72px);text-wrap:balance}
+  .kicker{font-size:clamp(16px,1.6vw,22px);margin-bottom:18px;color:var(--mist)}
+  .kicker span,.lede span{opacity:.5;padding:0 .6em}
+  .lede{font-size:clamp(17px,1.7vw,22px);font-weight:300;margin-top:22px;max-width:46ch;color:var(--mist)}
+  .slide-days{align-items:center}
+  .slide-days .bg{opacity:.35}
+  .slide-days::before{background:linear-gradient(90deg,rgba(6,22,34,.94) 0%,rgba(6,22,34,.8) 60%,rgba(6,22,34,.5) 100%)}
+  .days{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px 48px;max-width:1100px}
+  .days h4{font-stretch:125%;font-weight:600;font-size:20px;display:flex;align-items:center;gap:16px;margin-bottom:10px}
+  .days h4::after{content:"";flex:1;height:1px;background:rgba(238,241,242,.35)}
+  .days ul{list-style:none;display:grid;gap:6px;color:var(--mist);font-weight:300;font-size:16px}
+  .reef-cta{display:inline-flex;align-items:center;gap:20px;margin-top:30px;text-decoration:none;font-stretch:125%;font-weight:600;font-size:14px;letter-spacing:.14em;text-transform:uppercase}
+  .reef-cta .arrow{margin-top:0;width:80px}
+  .reef-nav{position:absolute;left:50%;bottom:calc(var(--gutter) - 10px);transform:translateX(-50%);display:flex;align-items:center;gap:14px;z-index:3}
+  .reef-btn{background:transparent;border:1px solid rgba(238,241,242,.45);border-radius:50%;width:40px;height:40px;padding:0;display:grid;place-items:center;color:var(--snow);letter-spacing:0}
+  .reef-btn:hover{background:rgba(238,241,242,.12)}
+  .reef-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6}
+  .reef-dots{display:flex;gap:8px}
+  .reef-dots button{width:8px;height:8px;border-radius:50%;padding:0;background:rgba(238,241,242,.35);border:0}
+  .reef-dots button[aria-selected="true"]{background:var(--snow);width:22px;border-radius:4px}
+  @media (max-width:820px){
+    .slide{min-height:86svh;padding-bottom:120px}
+    .reef .corner.br,.reef .corner.bl{display:none}
+    .days{grid-template-columns:1fr;gap:18px}
+    .days ul{font-size:15px}
+    .incl{grid-template-columns:1fr;font-size:15px}
+  }
+  @media (max-width:820px){
+    nav.corner{display:none}
+    .approach{grid-template-columns:1fr}
+    .approach-img{aspect-ratio:4/3}
+    .mosaic{grid-template-columns:repeat(2,1fr);grid-auto-rows:150px}
+    .mosaic figure{grid-column:span 1!important;grid-row:span 1!important}
+    .mosaic .m1,.mosaic .m6,.mosaic .m7,.mosaic .m8,.mosaic .m9,.mosaic .m10{grid-column:span 2!important;grid-row:span 2!important}
+    .corner{font-size:10px;letter-spacing:.3em}
+    .trip{height:78svh}
+    footer a{margin:0 18px 0 0}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .hero video{display:none}
+    .arrow,.trip .bg{transition:none}
+    .reef-track{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <img class="poster" src="assets/crystal-peak/hero-poster.jpg" alt="">
+  <video autoplay muted loop playsinline preload="auto" poster="assets/crystal-peak/hero-poster.jpg" aria-hidden="true">
+    <source src="assets/crystal-peak/hero-loop.mp4" type="video/mp4">
+  </video>
+  <a class="corner tl brand" href="/">Unbound</a>
+  <nav class="corner tr" aria-label="Main">
+    <a href="#expeditions">Expeditions</a><a href="#approach">Approach</a><a href="#join">Apply</a>
+  </nav>
+  <div class="hero-copy">
+    <h1 class="display">Be Boundless.</h1>
+    <p>Expeditions for athletes, not tourists.</p>
+    <a href="#expeditions" aria-label="See the expeditions">
+      <svg class="arrow" viewBox="0 0 120 14" aria-hidden="true"><line x1="0" y1="7" x2="118" y2="7"/><polyline points="111,1 118,7 111,13"/></svg>
+    </a>
+  </div>
+  <span class="corner bl">Expeditions</span>
+  <span class="corner br">Crystal Peak, Colorado</span>
+</header>
+
+<section class="statement" aria-label="About">
+  <p>We take people who train to the places that test it.</p>
+  <p>Summits before sunrise, ridgelines on foot, a single breath at depth. Small crews, real objectives, and guides who have done the work.</p>
+</section>
+
+<section id="expeditions" class="poster-stack" aria-label="Expeditions">
+
+  <section class="reef alpine" id="tour-du-mont-blanc" aria-roledescription="carousel" aria-label="Tour du Mont Blanc expedition">
+    <div class="reef-track" tabindex="0">
+
+      <article class="slide" aria-roledescription="slide" aria-label="1 of 4">
+        <img class="bg" src="assets/tour-du-mont-blanc/cover.jpg" alt="The Mer de Glace glacier below the Aiguilles, with fall color on the slopes" style="object-position:center 55%">
+        <div class="slide-copy">
+          <p class="kicker">June 27 to July 3, 2027<span>|</span>France, Italy, Switzerland</p>
+          <h2 class="display">Tour du Mont Blanc</h2>
+          <p class="lede">A fully supported 100 mile ultra across the Alps. Ten athletes, four staff and one loop around Mont Blanc through three countries.</p>
+        </div>
+      </article>
+
+      <article class="slide" aria-roledescription="slide" aria-label="2 of 4">
+        <img class="bg" src="assets/tour-du-mont-blanc/val-veny.jpg" alt="Peaks reflected in an alpine lake behind wildflowers in Val Veny">
+        <div class="slide-copy">
+          <h3 class="display">The Haute Route, run</h3>
+          <p class="lede">Dawn starts and high route variants keep every stage ahead of the day hiker crowds. Col de la Seigne before the tour groups, the Col Sapin high variant to Bonatti, Champex at first light.</p>
+        </div>
+      </article>
+
+      <article class="slide slide-days" aria-roledescription="slide" aria-label="3 of 4">
+        <img class="bg" src="assets/tour-du-mont-blanc/mont-blanc-ridge.jpg" alt="">
+        <div class="slide-copy days">
+          <div><h4>Day 1</h4><ul><li>Chamonix to Les Contamines</li><li>Col du Tricot high variant</li></ul></div>
+          <div><h4>Day 2</h4><ul><li>Les Contamines to Courmayeur</li><li>Col des Fours and Col de la Seigne into Italy</li></ul></div>
+          <div><h4>Day 3</h4><ul><li>Courmayeur to La Fouly</li><li>24 miles, 9,500 ft of climbing</li><li>Mont de la Saxe ridge and Grand Col Ferret into Switzerland</li></ul></div>
+          <div><h4>Day 4</h4><ul><li>La Fouly to Trient</li><li>24 miles, 6,200 ft of climbing</li><li>Champex Lac at first light, then Fenêtre d'Arpette, the highest pass on the route</li></ul></div>
+          <div><h4>Day 5</h4><ul><li>Trient to Chamonix, finish</li><li>19 miles, 4,600 ft of climbing</li><li>Col de Balme into France and the Grand Balcon to the finish</li><li>Finish line celebration dinner</li></ul></div>
+        </div>
+      </article>
+
+      <article class="slide" aria-roledescription="slide" aria-label="4 of 4">
+        <img class="bg" src="assets/tour-du-mont-blanc/alpine-meadow.jpg" alt="Trekkers crossing an alpine meadow below the glaciers of Mont Blanc">
+        <div class="slide-copy">
+          <h3 class="display">Everything but your flights</h3>
+          <ul class="incl">
+            <li>4 star hotels every night</li><li>All breakfasts and dinners</li><li>Trail nutrition and drop bags</li><li>Luggage transfers and support vehicle</li><li>On trail medical and physio</li><li>Performance kit and training plan</li><li>Geneva airport transfers</li><li>Finish celebration dinner</li>
+          </ul>
+          <a class="reef-cta" href="#join">Apply now <svg class="arrow" viewBox="0 0 120 14" aria-hidden="true"><line x1="0" y1="7" x2="118" y2="7"/><polyline points="111,1 118,7 111,13"/></svg></a>
+        </div>
+      </article>
+    </div>
+
+    <span class="corner tl">Chamonix</span><span class="corner tr">France, Italy, Switzerland</span>
+    <span class="corner bl">Mountain</span><span class="corner br">Jun 27 to Jul 3, 2027</span>
+    <div class="reef-nav">
+      <button class="reef-btn" data-dir="-1" aria-label="Previous slide"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15,4 7,12 15,20"/></svg></button>
+      <div class="reef-dots" role="tablist" aria-label="Choose slide"></div>
+      <button class="reef-btn" data-dir="1" aria-label="Next slide"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9,4 17,12 9,20"/></svg></button>
+    </div>
+  </section>
+
+  <section class="reef" id="roatan" aria-roledescription="carousel" aria-label="Roatán Freediving expedition">
+    <div class="reef-track" tabindex="0">
+
+      <article class="slide" aria-roledescription="slide" aria-label="1 of 4">
+        <img class="bg" src="assets/roatan/cover.jpg" alt="A freediver descending head first into deep blue water">
+        <div class="slide-copy">
+          <p class="kicker">March 21 to 25, 2027<span>|</span>Roatán, Honduras</p>
+          <h2 class="display">Roatán Freediving</h2>
+          <p class="lede">The next Unbound Ventures expedition. Explore crystal clear depths on the Great Mayan Reef using only the power of your breath.</p>
+        </div>
+      </article>
+
+      <article class="slide" aria-roledescription="slide" aria-label="2 of 4">
+        <img class="bg" src="assets/roatan/reef-rays.jpg" alt="A freediver gliding through sun rays above the reef">
+        <div class="slide-copy">
+          <h3 class="display">Master freediving on one of the world's most pristine reefs</h3>
+          <p class="lede">Five days of AIDA certified freediving training, plus Unbound breathwork, recovery and mindset sessions. A tropical reset at the end of winter.</p>
+        </div>
+      </article>
+
+      <article class="slide slide-days" aria-roledescription="slide" aria-label="3 of 4">
+        <img class="bg" src="assets/roatan/cover.jpg" alt="">
+        <div class="slide-copy days">
+          <div><h4>Day 1</h4><ul><li>Exploration breathwork and mobility session</li><li>Welcome ceremony and dinner with Unbound coaches and the crew</li></ul></div>
+          <div><h4>Day 2</h4><ul><li>Unbound breathwork and functional movement session</li><li>Pool training: static apnea and safety fundamentals</li><li>First open water dives, 10 to 15 meters</li><li>Guest speaker on freediving mindset and breath control</li></ul></div>
+          <div><h4>Day 3</h4><ul><li>Open water line diving intro</li><li>First reef dive</li><li>Special guest speaker</li></ul></div>
+          <div><h4>Day 4</h4><ul><li>Dive among the sharks of Roatán's reefs</li><li>Final max line dives and rescue skills training</li></ul></div>
+          <div><h4>Day 5</h4><ul><li>Explore the island of Roatán</li><li>Final Unbound performance session</li><li>Expedition debrief and AIDA 2 certification</li><li>Closing ceremony</li></ul></div>
+        </div>
+      </article>
+
+      <article class="slide" aria-roledescription="slide" aria-label="4 of 4">
+        <img class="bg" src="assets/roatan/surface-diver.jpg" alt="A freediver rising toward the surface trailing bubbles">
+        <div class="slide-copy">
+          <p class="kicker">Unbound Ventures</p>
+          <h3 class="display">Great Mayan Reef</h3>
+          <p class="lede">March 21 to 25, 2027<span>|</span>Roatán, Honduras</p>
+          <a class="reef-cta" href="#join">Apply now <svg class="arrow" viewBox="0 0 120 14" aria-hidden="true"><line x1="0" y1="7" x2="118" y2="7"/><polyline points="111,1 118,7 111,13"/></svg></a>
+        </div>
+      </article>
+    </div>
+
+    <span class="corner tl">Roatán</span><span class="corner tr">Honduras</span>
+    <span class="corner bl">Water</span><span class="corner br">Mar 21 to 25, 2027</span>
+    <div class="reef-nav">
+      <button class="reef-btn" data-dir="-1" aria-label="Previous slide"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15,4 7,12 15,20"/></svg></button>
+      <div class="reef-dots" role="tablist" aria-label="Choose slide"></div>
+      <button class="reef-btn" data-dir="1" aria-label="Next slide"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9,4 17,12 9,20"/></svg></button>
+    </div>
+  </section>
+
+  <section class="reef alpine" id="crystal-peak" aria-roledescription="carousel" aria-label="Crystal Peak expedition">
+    <div class="reef-track" tabindex="0">
+
+      <article class="slide" aria-roledescription="slide" aria-label="1 of 5">
+        <img class="bg" src="assets/crystal-peak/summit-aerial.jpg" alt="The crew gathered on Crystal Peak's rocky summit with snowy peaks behind" style="object-position:center 45%">
+        <div class="slide-copy">
+          <p class="kicker">Summit County, Colorado<span>|</span>13,852 ft</p>
+          <h2 class="display">Crystal Peak</h2>
+          <p class="lede">A Tenmile Range summit day built around an alpine start, a snowfield crossing and a ridgeline scramble to the top.</p>
+        </div>
+      </article>
+
+      <article class="slide" aria-roledescription="slide" aria-label="2 of 5">
+        <img class="bg" src="assets/crystal-peak/sunrise-start.jpg" alt="Hikers with poles climbing a trail as the sun rises behind the trees" style="object-position:center 40%">
+        <div class="slide-copy">
+          <h3 class="display">Alpine start</h3>
+          <p class="lede">Headlamps on before dawn and moving by first light, so the crew is high on the mountain before the afternoon weather builds.</p>
+        </div>
+      </article>
+
+      <article class="slide" aria-roledescription="slide" aria-label="3 of 5">
+        <img class="bg" src="assets/crystal-peak/crew-portrait.jpg" alt="Two athletes with trekking poles looking up the mountain at sunrise" style="object-position:center 25%">
+        <div class="slide-copy">
+          <h3 class="display">Small crews, big days</h3>
+          <p class="lede">Guides who know your pace by the first mile, and a crew that moves together from the trailhead to the summit and back.</p>
+        </div>
+      </article>
+
+      <article class="slide" aria-roledescription="slide" aria-label="4 of 5">
+        <img class="bg" src="assets/crystal-peak/summit-ridge.jpg" alt="Climbers resting on a snowy summit ridge above a sharp peak and distant ranges">
+        <div class="slide-copy">
+          <h3 class="display">Ridgeline scramble</h3>
+          <p class="lede">Hands on rock along the final ridge, with snowy ranges stretching out in every direction.</p>
+        </div>
+      </article>
+
+      <article class="slide" aria-roledescription="slide" aria-label="5 of 5">
+        <img class="bg" src="assets/crystal-peak/trail-wave.jpg" alt="Two hikers walking a forest trail toward the camera, one waving his cap" style="object-position:center 35%">
+        <div class="slide-copy">
+          <h3 class="display">Back down together</h3>
+          <p class="lede">Down through the trees and back to the trailhead with the whole crew.</p>
+          <a class="reef-cta" href="#join">Apply now <svg class="arrow" viewBox="0 0 120 14" aria-hidden="true"><line x1="0" y1="7" x2="118" y2="7"/><polyline points="111,1 118,7 111,13"/></svg></a>
+        </div>
+      </article>
+    </div>
+
+    <span class="corner tl">Summit County</span><span class="corner tr">Colorado</span>
+    <span class="corner bl">Mountain</span>
+    <div class="reef-nav">
+      <button class="reef-btn" data-dir="-1" aria-label="Previous slide"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15,4 7,12 15,20"/></svg></button>
+      <div class="reef-dots" role="tablist" aria-label="Choose slide"></div>
+      <button class="reef-btn" data-dir="1" aria-label="Next slide"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9,4 17,12 9,20"/></svg></button>
+    </div>
+  </section>
+
+  <section class="reef canyon" id="grand-canyon" aria-roledescription="carousel" aria-label="Grand Canyon expedition">
+    <div class="reef-track" tabindex="0">
+      <article class="slide" aria-roledescription="slide" aria-label="1 of 6">
+        <img class="bg" src="assets/grand-canyon/cover.jpg" alt="Layered walls and buttes of the Grand Canyon from the rim" style="object-position:center 50%">
+        <div class="slide-copy">
+          <p class="kicker">Grand Canyon, Arizona<span>|</span>Rim to Rim to Rim</p>
+          <h2 class="display">Grand Canyon</h2>
+          <p class="lede">The bucket list crossing. Down one rim, across the canyon floor, up the other side and back again.</p>
+        </div>
+      </article>
+      <article class="slide" aria-roledescription="slide" aria-label="2 of 6">
+        <img class="bg" src="assets/grand-canyon/canyon-bridge.jpg" alt="The crew crossing a steel footbridge between towering canyon walls" style="object-position:center 55%">
+        <div class="slide-copy">
+          <h3 class="display">A true misogi</h3>
+          <p class="lede">One day, one objective, built to be hard enough that you are not sure you can finish. The kind of challenge you measure the rest of your year against.</p>
+        </div>
+      </article>
+      <article class="slide" aria-roledescription="slide" aria-label="3 of 6">
+        <img class="bg" src="assets/grand-canyon/headlamp-crew.jpg" alt="Athletes in headlamps gathering at the trailhead before dawn" style="object-position:center 40%">
+        <div class="slide-copy">
+          <h3 class="display">Built on community</h3>
+          <p class="lede">A small crew that starts together in the dark and finishes together on the rim. Strangers at the trailhead, teammates by the river.</p>
+        </div>
+      </article>
+      <article class="slide" aria-roledescription="slide" aria-label="4 of 6">
+        <img class="bg" src="assets/grand-canyon/predawn-silhouette.jpg" alt="A hiker in a headlamp and sun hat silhouetted against the predawn sky" style="object-position:center 40%">
+        <div class="slide-copy">
+          <h3 class="display">Safety first, every mile</h3>
+          <p class="lede">Experienced guides front and back, planned water and aid stops, weather and heat calls made early, and first aid on the trail with the group.</p>
+        </div>
+      </article>
+      <article class="slide" aria-roledescription="slide" aria-label="5 of 6">
+        <img class="bg" src="assets/grand-canyon/canyon-trail.jpg" alt="A line of hikers with poles moving along the inner canyon trail" style="object-position:center 55%">
+        <div class="slide-copy">
+          <h3 class="display">Trained for it</h3>
+          <p class="lede">A training plan starts months out, built for the climbing, the miles and the heat, so you arrive ready to perform instead of hoping to survive.</p>
+        </div>
+      </article>
+      <article class="slide" aria-roledescription="slide" aria-label="6 of 6">
+        <img class="bg" src="assets/grand-canyon/rim-sunset.jpg" alt="An athlete resting against a bare tree on the rim at sunset" style="object-position:center 45%">
+        <div class="slide-copy">
+          <p class="kicker">Unbound Ventures</p>
+          <h3 class="display">Finish on the rim</h3>
+          <p class="lede">Sunset over the canyon you just crossed, twice.</p>
+          <a class="reef-cta" href="#join">Apply now <svg class="arrow" viewBox="0 0 120 14" aria-hidden="true"><line x1="0" y1="7" x2="118" y2="7"/><polyline points="111,1 118,7 111,13"/></svg></a>
+        </div>
+      </article>
+    </div>
+
+    <span class="corner tl">Grand Canyon</span><span class="corner tr">Arizona</span>
+    <span class="corner bl">Canyon</span>
+    <div class="reef-nav">
+      <button class="reef-btn" data-dir="-1" aria-label="Previous slide"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15,4 7,12 15,20"/></svg></button>
+      <div class="reef-dots" role="tablist" aria-label="Choose slide"></div>
+      <button class="reef-btn" data-dir="1" aria-label="Next slide"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9,4 17,12 9,20"/></svg></button>
+    </div>
+  </section>
+
+  <a class="trip pending" href="#join" style="--tint:#2D4A4F;background-image:url('assets/mount-temple/cover.jpg')">
+    <span class="corner tl">Banff, Alberta</span><span class="corner tr">Canada</span>
+    <div>
+      <h2 class="display">Mount Temple</h2>
+      <p class="sub">Four days<span>|</span>Banff, Alberta, Canada</p>
+      <svg class="arrow" viewBox="0 0 120 14" aria-hidden="true"><line x1="0" y1="7" x2="118" y2="7"/><polyline points="111,1 118,7 111,13"/></svg>
+    </div>
+    <span class="corner bl">Mountain</span>
+  </a>
+
+  <section class="reef canyon" id="cathedral-rock" aria-roledescription="carousel" aria-label="Cathedral Rock expedition">
+    <div class="reef-track" tabindex="0">
+      <article class="slide" aria-roledescription="slide" aria-label="1 of 8">
+        <img class="bg" src="assets/sedona/cathedral-spires.jpg" alt="The red sandstone spires of Cathedral Rock above juniper and pine" style="object-position:center 60%">
+        <div class="slide-copy">
+          <p class="kicker">Sedona, Arizona<span>|</span>Ruck, breathe, recover</p>
+          <h2 class="display">Cathedral Rock</h2>
+          <p class="lede">A desert weekend built around a loaded ruck through Sedona's red rock, with breath work, yoga, recovery and guest speakers around it.</p>
+        </div>
+      </article>
+      <article class="slide" aria-roledescription="slide" aria-label="2 of 8">
+        <img class="bg" src="assets/sedona/ridge-line.jpg" alt="A line of ruckers silhouetted crossing slickrock with mesas behind" style="object-position:center 55%">
+        <div class="slide-copy">
+          <h3 class="display">The ruck</h3>
+          <p class="lede">Weight on your back and miles of slickrock under your feet, moving as one crew from first light.</p>
+        </div>
+      </article>
+      <article class="slide" aria-roledescription="slide" aria-label="3 of 8">
+        <img class="bg" src="assets/sedona/trail-walk.jpg" alt="Athletes in bandanas walking a red dirt trail through cactus and scrub" style="object-position:center 30%">
+        <div class="slide-copy">
+          <h3 class="display">Every pace has a place</h3>
+          <p class="lede">Guides keep the group together, so the fastest and the newest finish side by side.</p>
+        </div>
+      </article>
+      <article class="slide" aria-roledescription="slide" aria-label="4 of 8">
+        <img class="bg" src="assets/sedona/ledge-filmer.jpg" alt="A lone figure on a red rock ledge above a wide desert valley" style="object-position:center 50%">
+        <div class="slide-copy">
+          <h3 class="display">Big country</h3>
+          <p class="lede">Ledges, saddles and views that run to the horizon. Earned on foot.</p>
+        </div>
+      </article>
+      <article class="slide" aria-roledescription="slide" aria-label="5 of 8">
+        <img class="bg" src="assets/sedona/aid-station.jpg" alt="The crew refueling at a trailhead aid station below Courthouse Butte" style="object-position:center 55%">
+        <div class="slide-copy">
+          <h3 class="display">Fully supported</h3>
+          <p class="lede">Coolers, water and trail fuel waiting at the trailhead, so the only job is the next mile.</p>
+        </div>
+      </article>
+      <article class="slide" aria-roledescription="slide" aria-label="6 of 8">
+        <img class="bg" src="assets/sedona/crew-slickrock.jpg" alt="A crew standing together on slickrock beneath the Cathedral Rock spires" style="object-position:center 65%">
+        <div class="slide-copy">
+          <h3 class="display">Built on community</h3>
+          <p class="lede">Strangers at the trailhead, teammates by the top. The crew is the point.</p>
+        </div>
+      </article>
+      <article class="slide" aria-roledescription="slide" aria-label="7 of 8">
+        <img class="bg" src="assets/sedona/trio.jpg" alt="Three athletes smiling together in front of a red rock peak" style="object-position:center 40%">
+        <div class="slide-copy">
+          <h3 class="display">Friends for life</h3>
+          <p class="lede">The people you suffer with are the people you keep.</p>
+        </div>
+      </article>
+      <article class="slide" aria-roledescription="slide" aria-label="8 of 8">
+        <img class="bg" src="assets/sedona/celebrate.jpg" alt="An athlete cheering with an arm raised at the finish" style="object-position:center 30%">
+        <div class="slide-copy">
+          <p class="kicker">Unbound Ventures</p>
+          <h3 class="display">Finish loud</h3>
+          <p class="lede">Back at the trailhead, done, together.</p>
+          <a class="reef-cta" href="#join">Apply now <svg class="arrow" viewBox="0 0 120 14" aria-hidden="true"><line x1="0" y1="7" x2="118" y2="7"/><polyline points="111,1 118,7 111,13"/></svg></a>
+        </div>
+      </article>
+    </div>
+
+    <span class="corner tl">Sedona, Arizona</span><span class="corner tr">USA</span>
+    <span class="corner bl">Desert</span>
+    <div class="reef-nav">
+      <button class="reef-btn" data-dir="-1" aria-label="Previous slide"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15,4 7,12 15,20"/></svg></button>
+      <div class="reef-dots" role="tablist" aria-label="Choose slide"></div>
+      <button class="reef-btn" data-dir="1" aria-label="Next slide"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9,4 17,12 9,20"/></svg></button>
+    </div>
+  </section>
+</section>
+
+<section class="field" aria-labelledby="field-h">
+  <div class="field-head">
+    <h2 id="field-h" class="display">From the field</h2>
+    <p>Frames from the ground we cover. Snow on the ridgelines in Colorado, red rock at first light in Sedona, the inner walls of the Grand Canyon, open water off the reefs of Roatán.</p>
+  </div>
+  <div class="mosaic">
+    <figure class="m1"><img src="assets/crystal-peak/alpine-lake.jpg" alt="A line of climbers crossing snow above a frozen alpine lake" loading="lazy"><figcaption>Crystal Peak, Colorado</figcaption></figure>
+    <figure class="m2"><img src="assets/sedona/canyon-ledge.jpg" alt="A lone figure on a ledge between red rock walls" loading="lazy"><figcaption>Cathedral Rock, Arizona</figcaption></figure>
+    <figure class="m3"><img src="assets/sedona/courthouse-butte.jpg" alt="Courthouse Butte rising above red earth and juniper" loading="lazy"><figcaption>Sedona, Arizona</figcaption></figure>
+    <figure class="m4"><img src="assets/roatan/diver.jpg" alt="A freediver underwater raising both hands" loading="lazy"><figcaption>Roatán, Honduras</figcaption></figure>
+    <figure class="m5"><img src="assets/crystal-peak/mountain-goat.jpg" alt="A mountain goat standing on a cliff ledge" loading="lazy"><figcaption>Crystal Peak, Colorado</figcaption></figure>
+    <figure class="m6"><img src="assets/sedona/rock-window.jpg" alt="A wide red rock valley framed between two dark rock walls" loading="lazy"><figcaption>Sedona, Arizona</figcaption></figure>
+    <figure class="m7"><img src="assets/crystal-peak/ridge-traverse.jpg" alt="Climbers strung out along a long snowy ridge" loading="lazy"><figcaption>Crystal Peak, Colorado</figcaption></figure>
+    <figure class="m8"><img src="assets/sedona/red-rock-panorama.jpg" alt="Red rock ridgelines above a forested valley" loading="lazy"><figcaption>Sedona, Arizona</figcaption></figure>
+    <figure class="m9"><img src="assets/sedona/spires-below.jpg" alt="The spires of Cathedral Rock against a blue sky" loading="lazy"><figcaption>Cathedral Rock, Arizona</figcaption></figure>
+    <figure class="m10"><img src="assets/grand-canyon/butte-vista.jpg" alt="A sunlit butte rising from the layered walls of the Grand Canyon" loading="lazy"><figcaption>Grand Canyon, Arizona</figcaption></figure>
+    <figure class="m11"><img src="assets/grand-canyon/inner-canyon.jpg" alt="A line of hikers walking beneath towering inner canyon walls" loading="lazy"><figcaption>Grand Canyon, Arizona</figcaption></figure>
+    <figure class="m12"><img src="assets/grand-canyon/hazy-rim.jpg" alt="Late light and haze over canyon ridges seen from the rim" loading="lazy"><figcaption>Grand Canyon, Arizona</figcaption></figure>
+  </div>
+</section>
+
+<section id="approach" class="approach" aria-labelledby="approach-h">
+  <div class="approach-img"><img src="assets/sedona/golden-butte.jpg" alt="A red rock butte lit gold at first light above dark pines" loading="lazy"></div>
+  <div>
+    <h2 id="approach-h" class="display">Built for people who train</h2>
+    <ul class="tenets">
+      <li><h3>A real objective</h3><p>Every trip is built around a summit, a crossing or a depth. You will know what you are training for months before you go.</p></li>
+      <li><h3>Preparation included</h3><p>Programming, breath work and recovery start at home, so you arrive ready to perform instead of hoping to survive.</p></li>
+      <li><h3>Small crews</h3><p>Groups stay small enough that guides know your pace, your gear and your name by the first night.</p></li>
+      <li><h3>Led by athletes</h3><p>Our guides come from hotshot crews, elite training and endurance racing. They have carried the load you are about to carry.</p></li>
+    </ul>
+  </div>
+</section>
+
+<section id="join" class="join" aria-labelledby="join-h">
+  <img src="assets/crystal-peak/summit-team.jpg" alt="" loading="lazy">
+  <div>
+    <h2 id="join-h" class="display">Apply for the next Expedition</h2>
+    <p>Every crew is small and built by application. Leave your email and we will send the application, dates and training details.</p>
+    <form id="signup">
+      <label for="email" class="sr" style="position:absolute;left:-9999px">Email address</label>
+      <input id="email" type="email" required placeholder="you@email.com" autocomplete="email">
+      <button type="submit">Apply</button>
+    </form>
+    <p class="form-note" id="form-note" role="status"></p>
+  </div>
+</section>
+
+<footer>
+  <span>Unbound Ventures LLC. Be Boundless. <small style="opacity:.6">Tour du Mont Blanc photo by Baron Carson on Unsplash.</small></span>
+  <span><a href="https://www.instagram.com/xptlife/" rel="noopener">Instagram</a><a href="mailto:hello@unboundventures.com">Contact</a></span>
+</footer>
+
+<script>
+  // If the hero video can't play, the poster image underneath stays visible.
+  const v = document.querySelector('.hero video');
+  if (v) {
+    const hide = () => { v.style.display = 'none'; };
+    v.addEventListener('error', hide, true);
+    setTimeout(() => { if (v.readyState === 0) hide(); }, 4000);
+  }
+  // Switch a trip to full height once its cover image loads.
+  document.querySelectorAll('.trip.pending').forEach(t => {
+    const m = /url\(['"]?([^'")]+)/.exec(t.style.backgroundImage);
+    if (!m) return;
+    const img = new Image();
+    img.onload = () => t.classList.remove('pending');
+    img.src = m[1];
+  });
+  // Expedition carousels: arrows, dots, keyboard, swipe (native scroll snap).
+  document.querySelectorAll('.reef').forEach(root => {
+    const track = root.querySelector('.reef-track');
+    const slides = [...track.children];
+    const dots = root.querySelector('.reef-dots');
+    const go = i => { i = Math.max(0, Math.min(slides.length - 1, i)); track.scrollTo({left: i * track.clientWidth}); };
+    const cur = () => Math.round(track.scrollLeft / track.clientWidth);
+    slides.forEach((s, i) => {
+      const b = document.createElement('button');
+      b.setAttribute('role', 'tab'); b.setAttribute('aria-label', 'Slide ' + (i + 1));
+      b.addEventListener('click', () => go(i)); dots.appendChild(b);
+    });
+    const sync = () => { const c = cur(); [...dots.children].forEach((d, i) => d.setAttribute('aria-selected', i === c)); };
+    track.addEventListener('scroll', () => requestAnimationFrame(sync), {passive: true});
+    root.querySelectorAll('.reef-btn').forEach(b => b.addEventListener('click', () => go(cur() + +b.dataset.dir)));
+    track.addEventListener('keydown', e => { if (e.key === 'ArrowRight') { e.preventDefault(); go(cur() + 1); } if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur() - 1); } });
+    sync();
+  });
+  // Placeholder signup until an email service is connected.
+  document.getElementById('signup').addEventListener('submit', e => {
+    e.preventDefault();
+    document.getElementById('form-note').textContent = "Thanks for applying. We'll be in touch with next steps.";
+    e.target.reset();
+  });
+</script>
+</body>
+</html>
