@@ -50,6 +50,11 @@
   nav.corner a{text-decoration:none;margin-left:2.2em}
   nav.corner a:hover{color:var(--snow)}
   .brand{font-weight:700;letter-spacing:.32em;color:var(--snow);text-decoration:none}
+  .hero-ctas{display:flex;justify-content:center;align-items:center;gap:clamp(20px,3vw,36px);flex-wrap:wrap;margin-top:clamp(32px,4vw,48px)}
+  .btn-solid{background:var(--brick);color:#fff;font-stretch:125%;font-weight:600;font-size:14px;letter-spacing:.24em;text-transform:uppercase;padding:22px 40px;transition:background .2s,transform .2s}
+  .btn-solid:hover,.btn-solid:focus-visible{background:#8B3A2F;transform:translateY(-2px)}
+  .btn-line{color:var(--snow);font-stretch:125%;font-weight:500;font-size:14px;letter-spacing:.24em;text-transform:uppercase;padding-bottom:6px;border-bottom:1.5px solid var(--snow);transition:border-color .2s}
+  .btn-line:hover,.btn-line:focus-visible{border-color:var(--brick)}
 
   /* ---------- STATEMENT ---------- */
   .statement{padding:clamp(96px,16vw,220px) var(--gutter);max-width:1280px}
@@ -195,14 +200,15 @@
   </video>
   <a class="corner tl brand" href="/">Unbound</a>
   <nav class="corner tr" aria-label="Main">
-    <a href="#expeditions">Expeditions</a><a href="#approach">Approach</a><a href="#leader">Leader</a><a href="#join">Apply</a>
+    <a href="#expeditions">Expeditions</a><a href="#approach">Approach</a><a href="#leader">Leader</a><a href="#join">Apply</a><a href="/contact">Contact</a>
   </nav>
   <div class="hero-copy">
     <h1 class="display">Be Boundless.</h1>
     <p>Expeditions for athletes, not tourists.</p>
-    <a href="#expeditions" aria-label="See the expeditions">
-      <svg class="arrow" viewBox="0 0 120 14" aria-hidden="true"><line x1="0" y1="7" x2="118" y2="7"/><polyline points="111,1 118,7 111,13"/></svg>
-    </a>
+    <div class="hero-ctas">
+      <a class="btn-solid" href="/contact">Contact Us</a>
+      <a class="btn-line" href="#expeditions">See the Expeditions</a>
+    </div>
   </div>
   <span class="corner bl">Expeditions</span>
   <span class="corner br">Crystal Peak, Colorado</span>
@@ -576,7 +582,7 @@
 
 <footer>
   <span>Unbound Ventures LLC. Be Boundless. <small style="opacity:.6">Tour du Mont Blanc photo by Baron Carson on Unsplash.</small></span>
-  <span><a href="https://www.instagram.com/unboundventures/" rel="noopener">Instagram</a><a href="mailto:botsford.eric@gmail.com">Contact</a></span>
+  <span><a href="https://www.instagram.com/unboundventures/" rel="noopener">Instagram</a><a href="/contact">Contact</a></span>
 </footer>
 
 <script>

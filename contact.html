@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact Us | Unbound Ventures</title>
+<meta name="description" content="Get in touch with Unbound Ventures about an upcoming expedition.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --slate:#1B2328; --slate-2:#26313A; --snow:#EEF1F2; --glacier:#9DB4BF; --mist:#C9D3D8; --brick:#A84232;
+    --gutter:clamp(16px,4vw,56px); --wide:'Archivo',system-ui,sans-serif;
+    --field:rgba(238,241,242,.06); --line:rgba(157,180,191,.32);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--slate);color:var(--snow);font-family:var(--wide);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100svh}
+  body::before{content:"";position:fixed;inset:0;background:linear-gradient(rgba(27,35,40,.72),rgba(27,35,40,.72)),url('assets/crystal-peak/alpine-lake.jpg') center/cover;z-index:-1}
+  a{color:inherit}
+  :focus-visible{outline:2px solid var(--glacier);outline-offset:4px}
+
+  .top{display:flex;justify-content:space-between;align-items:center;padding:var(--gutter);font-size:11px;font-weight:500;font-stretch:125%;letter-spacing:.42em;text-transform:uppercase;color:rgba(238,241,242,.78)}
+  .top a{text-decoration:none}
+  .brand{font-weight:700;letter-spacing:.32em;color:var(--snow)}
+  .top a:hover{color:var(--snow)}
+
+  main{max-width:860px;margin:0 auto;padding:clamp(24px,5vw,64px) var(--gutter) clamp(72px,10vw,120px)}
+  .card{background:rgba(27,35,40,.88);border:1px solid rgba(157,180,191,.18);padding:clamp(28px,6vw,72px);backdrop-filter:blur(6px)}
+  h1{font-stretch:125%;font-weight:600;letter-spacing:-.02em;line-height:.98;font-size:clamp(40px,7vw,80px)}
+  .intro{margin-top:20px;color:var(--mist);font-weight:300;font-size:clamp(17px,1.7vw,20px);max-width:46ch}
+
+  form{margin-top:clamp(36px,5vw,56px);display:grid;grid-template-columns:1fr 1fr;gap:28px clamp(20px,3vw,40px)}
+  .full{grid-column:1/-1}
+  label{display:block;font-size:16px;color:var(--mist);margin-bottom:10px}
+  label .req{color:var(--brick);margin-left:2px}
+  input,select,textarea{width:100%;background:var(--field);border:1px solid var(--line);border-radius:999px;color:var(--snow);font:inherit;font-size:17px;padding:16px 24px;transition:border-color .2s,background .2s;appearance:none;-webkit-appearance:none}
+  textarea{border-radius:28px;min-height:140px;resize:vertical}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--glacier);background:rgba(238,241,242,.1)}
+  input::placeholder,textarea::placeholder{color:rgba(201,211,216,.45)}
+  select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M0 0h12L6 8z' fill='%23EEF1F2'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 24px center;background-size:12px 8px;padding-right:52px}
+  select option{background:var(--slate);color:var(--snow)}
+
+  .phone{display:flex;border:1px solid var(--line);border-radius:999px;background:var(--field);overflow:hidden;transition:border-color .2s}
+  .phone:focus-within{border-color:var(--glacier)}
+  .phone select,.phone input{border:0;border-radius:0;background-color:transparent}
+  .phone select{width:auto;flex:0 0 auto;padding:16px 44px 16px 22px;background-position:right 18px center;border-right:1px solid var(--line)}
+  .phone input{flex:1;min-width:0}
+
+  button{grid-column:1/-1;justify-self:start;background:var(--brick);color:#fff;border:0;font:inherit;font-stretch:125%;font-weight:600;font-size:14px;letter-spacing:.24em;text-transform:uppercase;padding:22px 48px;cursor:pointer;transition:background .2s,transform .2s;margin-top:8px}
+  button:hover{background:#8B3A2F;transform:translateY(-2px)}
+  button:disabled{opacity:.6;cursor:wait;transform:none}
+  .form-note{grid-column:1/-1;font-size:15px;color:var(--glacier);min-height:1.4em}
+  .hp{position:absolute;left:-9999px}
+
+  @media (max-width:640px){
+    form{grid-template-columns:1fr}
+    .top nav a:not(:last-child){display:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="brand" href="/">Unbound</a>
+  <nav aria-label="Main"><a href="/">Back to home</a></nav>
+</header>
+
+<main>
+  <div class="card">
+    <h1>Contact Us</h1>
+    <p class="intro">We would love to hear from you. Tell us a little about yourself and the expedition you have your eye on, and we will get back to you soon.</p>
+
+    <form id="contact" novalidate>
+      <div>
+        <label for="first">First Name<span class="req">*</span></label>
+        <input id="first" name="first_name" required autocomplete="given-name">
+      </div>
+      <div>
+        <label for="last">Last Name<span class="req">*</span></label>
+        <input id="last" name="last_name" required autocomplete="family-name">
+      </div>
+      <div class="full">
+        <label for="email">Email<span class="req">*</span></label>
+        <input id="email" name="email" type="email" required autocomplete="email">
+      </div>
+      <div class="full">
+        <label for="phone">Phone Number<span class="req">*</span></label>
+        <div class="phone">
+          <select id="country" name="country_code" aria-label="Country code">
+            <option value="+1" selected>🇺🇸 +1</option>
+            <option value="+1">🇨🇦 +1</option>
+            <option value="+52">🇲🇽 +52</option>
+            <option value="+44">🇬🇧 +44</option>
+            <option value="+33">🇫🇷 +33</option>
+            <option value="+41">🇨🇭 +41</option>
+            <option value="+49">🇩🇪 +49</option>
+            <option value="+39">🇮🇹 +39</option>
+            <option value="+34">🇪🇸 +34</option>
+            <option value="+61">🇦🇺 +61</option>
+            <option value="+64">🇳🇿 +64</option>
+            <option value="+504">🇭🇳 +504</option>
+          </select>
+          <input id="phone" name="phone" type="tel" required autocomplete="tel-national" inputmode="tel">
+        </div>
+      </div>
+      <div class="full">
+        <label for="zip">Zip Code<span class="req">*</span></label>
+        <input id="zip" name="zip" required autocomplete="postal-code">
+      </div>
+      <div class="full">
+        <label for="message">Message</label>
+        <textarea id="message" name="message"></textarea>
+      </div>
+      <div class="full">
+        <label for="interest">Expedition Interest</label>
+        <select id="interest" name="expedition_interest">
+          <option value="" selected></option>
+          <option>Tour du Mont Blanc (June 27 to July 3, 2027)</option>
+          <option>Roatán Freediving (March 21 to 25, 2027)</option>
+          <option>Crystal Peak</option>
+          <option>Grand Canyon</option>
+          <option>Mount Temple</option>
+          <option>Cathedral Rock</option>
+          <option>Not sure yet</option>
+        </select>
+      </div>
+      <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button type="submit">Send</button>
+      <p class="form-note" id="form-note" role="status"></p>
+    </form>
+  </div>
+</main>
+
+<script>
+  // Submissions are emailed to Unbound through FormSubmit, same as the homepage application form.
+  const form = document.getElementById('contact');
+  const note = document.getElementById('form-note');
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      const bad = form.querySelector(':invalid');
+      note.textContent = 'Please fill in the required fields.';
+      bad && bad.focus();
+      return;
+    }
+    const btn = form.querySelector('button');
+    const d = Object.fromEntries(new FormData(form));
+    if (d._honey) return;
+    btn.disabled = true; note.textContent = 'Sending...';
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/botsford.eric@gmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          'First Name': d.first_name,
+          'Last Name': d.last_name,
+          'Email': d.email,
+          'Phone': d.country_code + ' ' + d.phone,
+          'Zip Code': d.zip,
+          'Expedition Interest': d.expedition_interest || 'Not specified',
+          'Message': d.message || '',
+          _replyto: d.email,
+          _subject: 'New Unbound Ventures contact: ' + d.first_name + ' ' + d.last_name,
+          _template: 'table',
+          _captcha: 'false'
+        })
+      });
+      if (!res.ok) throw new Error(res.status);
+      note.textContent = "Thanks, " + d.first_name + ". We got your message and will be in touch soon.";
+      form.reset();
+    } catch (err) {
+      note.textContent = "Your message didn't go through. Check your connection and try again, or email botsford.eric@gmail.com.";
+    } finally { btn.disabled = false; }
+  });
+</script>
+</body>
+</html>
